@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 var mssql = require('../db/mssql');
 require('dotenv').config();
-
+var authMiddleware = require('../Service/authMiddleware');
 //response print data 
-router.get('/:doc_id', function (req, res, next) {
+router.get('/:doc_id', authMiddleware.AuthenAPI,function (req, res, next) {
     var con = new mssql.Request();
     let doc_id = req.params.doc_id;
     con.input("doc_id", doc_id);

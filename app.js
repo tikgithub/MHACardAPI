@@ -22,12 +22,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/api/user',usersRouter);
 app.use('/api/document',printRouter);
 app.use('/api/card',cardRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+ // next(createError(404));
+  res.status(404).send({"Message":"404 API Resource Not Found"});
 });
 
 // error handler

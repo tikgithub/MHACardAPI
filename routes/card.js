@@ -3,6 +3,7 @@ var router = express.Router();
 var mssql = require('../db/mssql');
 var exception = require('../Service/exceptionService');
 var cardService = require('../Service/cardService');
+var authMiddleware = require('../Service/authMiddleware');
 require('dotenv').config();
 const {
     body,
@@ -12,7 +13,7 @@ const {
 } = require('express-validator');
 
 //main route is /card
-router.get('/:id', function (req, res, next) {
+router.get('/:id',authMiddleware.AuthenAPI ,function (req, res, next) {
     let con = new mssql.Request();
     let card_id = req.params.id;
     con.input("card_id", card_id)
@@ -54,7 +55,7 @@ function updateCardRequire() {
         body('document_id').notEmpty().withMessage("var 'document_id' could not empty")
     ];
 }
-router.put('/:card_id', updateCardRequire(), async (req, res, next) => {
+router.put('/:card_id', authMiddleware.AuthenAPI, updateCardRequire(), async (req, res, next) => {
     try {
         //Validator section
         let errors = validationResult(req);
