@@ -42,7 +42,7 @@ router.get('/:id',authMiddleware.AuthenAPI ,function (req, res, next) {
         }
         res.status(200);
         res.send({
-            'card': result.recordset
+            'card': result.recordset[0]
         });
     });
 });
